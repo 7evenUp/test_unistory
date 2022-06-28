@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useReducer } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import './App.css'
+import { BlogContext, initialState, reducer } from './context/createContext'
+import Home from './pages/Home'
+import PostPage from './pages/PostPage'
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    // @ts-ignore
+    <BlogContext.Provider value={{dispatch, state}}>
+      <div className="App">
+        <main className="container">
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path=':postId' element={<PostPage />} />
+            </Routes>
+          </BrowserRouter>
+        </main>
+      </div>
+    </BlogContext.Provider>
+    
+  )
 }
 
-export default App;
+export default App

@@ -1,0 +1,20 @@
+.button {
+  width: 100%;
+  padding: 4px 8px;
+  background-color: lightcyan;
+  cursor: pointer;
+  border: 1px solid lightblue;
+  transition: all .15s ease-in;
+}
+
+.button__delete {
+  background-color: #FF7F50;
+}
+
+.button:hover {
+  background-color: lightblue;
+}
+
+.button__delete:hover {
+  background-color: #e85b28;
+}
