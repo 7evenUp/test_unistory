@@ -1,43 +1,38 @@
 import { useContext, useState } from "react"
-import Button from "../components/Button/Button"
-import Modal from "../components/Modal/Modal"
-import Post from "../components/Post/Post"
+import { Post, Modal, Button } from '../components'
 import { AppContext } from "../context/createContext"
 import { Types } from "../context/reducers"
 
 const Home = () => {
   const {state} = useContext(AppContext)
-  console.log(state)
   const [isModalOpened, setIsModalOpened] = useState(false)
 
   return (
     <>
       <h1 className="heading">Блог</h1>
       <div className="content">
-        {state.map(el => {
-          return <Post
-                    key={el.id}
-                    postId={el.id}
-                    title={el.title}
-                    content={el.content}/>
-        })}
+        {state.map(el => (
+          <Post
+            key={el.id}
+            postId={el.id}
+            title={el.title}
+            content={el.content}/>
+        ))}
       </div>
       <div className="button_wrapper">
-        <Button title="+ Добавить" onClick={() => {
-          setIsModalOpened(true)
-        }}/>
+        <Button title="+ Добавить" onClick={() => setIsModalOpened(true)}/>
       </div>
       
       { isModalOpened && (
         <Modal closeModal={() => setIsModalOpened(false)}>
-          <CreateModalChildren closeModal={() => setIsModalOpened(false)} />
+          <ModalPost closeModal={() => setIsModalOpened(false)} />
         </Modal>
       )}
     </>
   )
 }
 
-const CreateModalChildren = ({closeModal}: {closeModal: () => void}) => {
+const ModalPost = ({closeModal}: {closeModal: () => void}) => {
   const { dispatch } = useContext(AppContext)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
@@ -79,11 +74,8 @@ const CreateModalChildren = ({closeModal}: {closeModal: () => void}) => {
       <div style={{
         display: 'flex'
       }}>
-        <Button title="Отмена" onClick={() => {
-          closeModal()
-        }}/>
+        <Button title="Отмена" onClick={() => closeModal()}/>
         <Button title="Сохранить" onClick={() => {
-          console.log(title, content)
           dispatch({
             type: Types.Add,
             payload: {

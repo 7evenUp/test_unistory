@@ -25,6 +25,7 @@
 
 .textarea {
   flex: 1;
+  resize: none;
 }
 
 .buttons {

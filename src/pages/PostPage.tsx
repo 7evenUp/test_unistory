@@ -1,7 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import Button from "../components/Button/Button"
-import Modal from "../components/Modal/Modal"
+import { Button, Modal } from "../components"
 import { AppContext } from "../context/createContext"
 import { Types } from "../context/reducers"
 import styles from "./PostPage.module.css"
@@ -21,7 +20,6 @@ const PostPage = () => {
       setContent(state[id].content)
     }
   }, [])
-
   
   const navigate = useNavigate()
 
@@ -34,9 +32,7 @@ const PostPage = () => {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <Button
-          onClick={() => navigate(-1)}
-          title="Назад"/>
+        <Button title="Назад" onClick={() => navigate(-1)} />
       </header>
       <main className={styles.main}>
         <h1>Запись {title}</h1>
@@ -51,10 +47,7 @@ const PostPage = () => {
           placeholder="content"
           name="content"
           value={content}
-          onChange={handleChange}
-          style={{
-            resize: "none"
-          }} />
+          onChange={handleChange} />
           <div className={styles.buttons}>
             <Button
               title="Удалить"
@@ -80,14 +73,14 @@ const PostPage = () => {
 
       { isModalOpened && (
         <Modal closeModal={() => setIsModalOpened(false)}>
-          <DeleteModalChildren closeModal={() => setIsModalOpened(false)} postId={postId} />
+          <DeleteModal closeModal={() => setIsModalOpened(false)} postId={postId} />
         </Modal>
       )}
     </div>
   )
 }
 
-const DeleteModalChildren = ({closeModal, postId }: {closeModal: () => void, postId: string | undefined}) => {
+const DeleteModal = ({closeModal, postId }: {closeModal: () => void, postId: string | undefined}) => {
   const { dispatch } = useContext(AppContext)
   const navigate = useNavigate()
 
@@ -97,13 +90,9 @@ const DeleteModalChildren = ({closeModal, postId }: {closeModal: () => void, pos
       flexDirection: 'column',
       gap: 16
     }}>
-      <b style={{ textAlign: 'center' }}>Вы точно хотите удалить?</b>
-      <div style={{
-        display: 'flex'
-      }}>
-        <Button title="Нет" onClick={() => {
-          closeModal()
-        }}/>
+      <b style={{textAlign: 'center'}}>Вы точно хотите удалить?</b>
+      <div style={{display: 'flex'}}>
+        <Button title="Нет" onClick={() => closeModal()}/>
         <Button title="Да" onClick={() => {
           if (postId) {
             dispatch({
